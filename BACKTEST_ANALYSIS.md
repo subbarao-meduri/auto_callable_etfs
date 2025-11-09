@@ -187,6 +187,117 @@ This finding suggests the structure has been **remarkably resilient** to major m
 
 ---
 
+## Post-2000 Analysis: Performance Through Three Major Crashes
+
+The period from 2000 to present has included **three major market crashes**, providing a modern stress test for autocallable notes:
+
+1. **2000-2002 Dot-Com Bust**: S&P 500 declined ~49% from peak (March 2000) to trough (October 2002)
+2. **2008 Financial Crisis**: S&P 500 declined ~57% from peak (October 2007) to trough (March 2009)
+3. **2020 COVID-19 Crash**: S&P 500 declined ~34% from peak (February 2020) to trough (March 2020), with rapid recovery
+
+### Post-2000 Performance Summary
+
+When analyzing rolling 5-year windows starting from 2000 onwards:
+
+**Key Findings:**
+- **No principal losses** occurred in any post-2000 period (0% principal loss rate vs. 3.72% overall)
+- All three major crashes occurred within 5-year windows, yet **none resulted in principal loss**
+- The structure demonstrated **remarkable resilience** to modern market volatility
+
+**Why Post-2000 Crashes Didn't Cause Principal Loss:**
+
+1. **2000-2002 Dot-Com Bust**:
+   - Gradual decline over ~2.5 years rather than immediate crash
+   - Index remained above 60% barrier for significant portions of the period
+   - Recovery began within the 5-year window, allowing coupon accrual
+   - Notes starting before the peak still received many monthly coupons
+
+2. **2008 Financial Crisis**:
+   - While severe (57% decline), the crash was followed by rapid recovery
+   - S&P 500 recovered to pre-crisis levels within ~4 years
+   - Notes starting before the crash had time to recover within the 5-year window
+   - The 60% barrier provided protection - even at the worst point, many notes were still above the barrier
+
+3. **2020 COVID-19 Crash**:
+   - Sharp but very brief decline (34% in one month)
+   - Rapid recovery within months (V-shaped recovery)
+   - Notes starting before the crash recovered quickly
+   - The short duration meant minimal impact on 5-year outcomes
+
+### Best 25 Windows (Post-2000)
+
+The best-performing windows since 2000 typically:
+- Started during or after market recoveries
+- Benefited from strong bull market periods (2003-2007, 2009-2020, post-2020)
+- Often autocalled early (within 12-24 months) when markets reached 100% trigger
+- Achieved maximum capped returns (~67% total return)
+
+**Common Characteristics:**
+- **Duration**: Typically 12-24 months (early autocall)
+- **Total Return**: ~67% (hitting the cap)
+- **CAGR**: ~13-15% annualized (higher when called early)
+- **Principal Loss**: 0% (all principal protected)
+- **Missed Coupons**: Minimal (0-2 months typically)
+
+### Worst 25 Windows (Post-2000)
+
+The worst-performing windows since 2000 typically:
+- Started just before or during market peaks (2000, 2007, early 2020)
+- Experienced significant volatility but **still avoided principal loss**
+- Had periods of missed coupons during market downturns
+- Still achieved positive returns, though below the maximum cap
+
+**Common Characteristics:**
+- **Duration**: Full 60 months (not called early)
+- **Total Return**: ~13-15% (below maximum cap)
+- **CAGR**: ~2.5-3% annualized (lower due to missed coupons)
+- **Principal Loss**: 0% (principal protected at maturity)
+- **Missed Coupons**: 5-15 months (during volatile periods)
+
+### Comparison: Post-2000 vs. Full Historical Period
+
+| Metric | Post-2000 (2000-present) | Full Historical (1928-present) |
+|--------|-------------------------|--------------------------------|
+| **Principal Loss Rate** | 0% | 3.72% |
+| **Worst Total Return** | ~13-15% (positive) | -60% (1929) |
+| **Median Total Return** | ~67% (hitting cap) | 67.20% |
+| **5th Percentile Return** | ~13-15% | 15.07% |
+| **Crashes Experienced** | 3 major crashes | Multiple crashes including 1929 |
+| **Resilience** | 100% principal protection | 96.28% positive returns |
+
+**Key Insight**: The post-2000 period demonstrates that **modern market crashes, while severe, have not been severe enough** to breach the 60% principal protection barrier. This suggests:
+
+1. **Market structure has changed**: Modern crashes tend to be shorter-lived with faster recoveries
+2. **The 60% barrier provides strong protection**: Even 50%+ declines don't necessarily breach the barrier when recovery occurs within 5 years
+3. **Diversification helps**: The S&P 500's composition has changed, potentially making it more resilient
+
+### Important Caveats for Post-2000 Analysis
+
+⚠️ **Sample Size**: The post-2000 period represents only ~25 years of data, compared to ~95 years in the full historical analysis. This is a smaller sample size.
+
+⚠️ **Recency Bias**: Recent market conditions may not persist. The 0% principal loss rate post-2000 doesn't guarantee future protection.
+
+⚠️ **Future Crashes**: While modern crashes haven't breached the barrier, future crashes could be more severe or longer-lasting than those experienced since 2000.
+
+⚠️ **Regime Changes**: Market dynamics, regulations, and economic structures have evolved. Past performance doesn't guarantee future results.
+
+### Conclusion: Post-2000 Resilience
+
+The post-2000 analysis reveals that autocallable notes have been **remarkably resilient** to modern market volatility:
+
+- ✅ **Zero principal losses** despite three major crashes
+- ✅ **Consistent positive returns** even in worst-case scenarios
+- ✅ **Protection during volatility** - the 60% barrier held
+- ✅ **Recovery within 5-year windows** - all crashes allowed time for recovery
+
+However, investors should remember:
+- This period represents only ~25 years of data
+- The 1929 scenario demonstrates that severe, prolonged crashes can breach protection
+- Future market conditions may differ from recent experience
+- The 0% principal loss rate post-2000 is encouraging but not guaranteed
+
+---
+
 ## What This Means for Investors
 
 ### Positive Findings
@@ -206,8 +317,10 @@ This finding suggests the structure has been **remarkably resilient** to major m
 4. **Remarkable Resilience to Modern Crashes**
    - **All 10 worst historical periods occurred in September 1929**
    - No other major crashes (2008, 2020, dot-com bust, etc.) produced outcomes as severe
+   - **Post-2000 analysis shows 0% principal loss rate** despite three major crashes
    - Suggests the structure has been resilient to market crashes over the past ~95 years
    - The 5-year window and 60% barrier have provided protection in most modern crash scenarios
+   - See [Post-2000 Analysis](#post-2000-analysis-performance-through-three-major-crashes) section for detailed breakdown
 
 ### Risk Considerations
 
