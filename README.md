@@ -15,6 +15,18 @@ The simulation uses geometric Brownian motion (GBM) to model underlying index mo
 
 While CAIE uses laddering (many notes) and swaps/treasury collateral to produce exposure, this model uses a representative single-note payoff as a first-order approximation that captures the essential autocall/barrier dynamics.
 
+## ⚠️ Important: Understanding the Risks
+
+**Before using this simulation, please read:** [RISK_ANALYSIS.md](RISK_ANALYSIS.md)
+
+This document provides a comprehensive analysis of:
+- How Calamos delivers such high yields (~14-15%)
+- How they make money (option premium income, fees)
+- The inherent risks and structural trade-offs
+- Who these products are suitable (and not suitable) for
+
+The high yields come with significant risks including principal loss risk, equity market exposure, and limited upside participation. Understanding these risks is essential for interpreting the simulation results.
+
 ## Key Product Features (What's Being Modeled)
 
 Based on CAIE public materials and financial reporting:
@@ -93,7 +105,9 @@ pip install numpy pandas matplotlib
 
 ## Usage
 
-Run the simulation:
+### Monte Carlo Simulation
+
+Run the Monte Carlo simulation:
 ```bash
 python3 montecarlo.py
 ```
@@ -102,6 +116,21 @@ The script will:
 1. Run 200,000 Monte Carlo simulations
 2. Print statistical summaries for both total returns and CAGR
 3. Generate a histogram plot saved as `montecarlo_results.png`
+
+### Historical Backtest
+
+Run the historical backtest using real S&P 500 data:
+```bash
+python3 backtest.py
+```
+
+The script will:
+1. Download S&P 500 historical data (1928-present)
+2. Evaluate rolling 5-year windows across historical periods
+3. Print statistics including principal loss rates and return percentiles
+4. Generate a histogram plot saved as `historical_autocall_total_return_hist.png`
+
+**See [BACKTEST_ANALYSIS.md](BACKTEST_ANALYSIS.md) for detailed interpretation of backtest results.**
 
 ## Output
 
@@ -208,6 +237,19 @@ Min annualized return (CAGR): -19.25%
 
 Plot saved to montecarlo_results.png
 ```
+
+### Visualization
+
+![Monte Carlo Simulation Results](montecarlo_results.png)
+
+*Monte Carlo distribution of representative CAIE note total return (net of fees) - 200,000 simulations*
+
+## Documentation
+
+This repository includes comprehensive documentation:
+
+- **[RISK_ANALYSIS.md](RISK_ANALYSIS.md)** - Detailed analysis of how Calamos delivers high yields, how they make money, and the inherent risks of autocallable ETFs
+- **[BACKTEST_ANALYSIS.md](BACKTEST_ANALYSIS.md)** - Interpretation of historical backtest results, including how to read the histogram and what it means for investors
 
 ## References
 

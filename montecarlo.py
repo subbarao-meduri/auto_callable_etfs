@@ -1,96 +1,94 @@
 #!/usr/bin/env python3
 """
-Monte Carlo simulation of a representative autocallable note like those in CAIE.
-Assumptions described in the message. Change parameters below as needed.
+Monte Carlo simulation of a representative autocallable note (CAIE-style).
+Simulates price paths using geometric Brownian motion and evaluates note payoffs.
 """
 
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# -----------------------------
-# Parameters (change as desired)
-S0 = 100.0            # starting index level (normalized)
-mu = 0.07             # annual drift (expected return)
-sigma = 0.18          # annual volatility
-T = 5.0               # maturity in years (CAIE uses laddered notes; 5y assumed)
-dt = 1/252.0          # daily steps (for path granularity)
-coupon_annual = 0.147 # gross annual coupon (14.7%)
-fee_annual = 0.0074   # expense ratio (0.74%)
-monthly_barrier = 0.60   # coupon barrier (60% of start)
-autocall_trigger = 1.00  # autocall trigger (100% of start) at annual observations
-call_interval_years = 1  # autocall check every 1 year
-n_sims = 200000       # number of Monte Carlo runs (increase for smoother tails)
-seed = 42
+# Simulation Parameters
+S0 = 100.0            # Starting index level (normalized to 100)
+mu = 0.07             # Annual drift (expected return). Default: 7% (typical equity market)
+sigma = 0.18          # Annual volatility. Default: 18% (S&P 500 historical volatility)
+T = 5.0               # Maturity in years. Default: 5 years (CAIE typical maturity)
+dt = 1/252.0          # Time step size (years). Default: daily (252 trading days/year)
+
+# Note Structure Parameters
+coupon_annual = 0.147 # Gross annual coupon rate. Default: 14.7% (CAIE current yield)
+fee_annual = 0.0074   # Annual expense ratio. Default: 0.74% (CAIE expense ratio)
+monthly_barrier = 0.60   # Coupon barrier as fraction of start. Default: 60% (coupon paid if index >= 60%)
+autocall_trigger = 1.00  # Autocall trigger as fraction of start. Default: 100% (early call if index >= 100%)
+call_interval_years = 1  # Autocall check frequency (years). Default: 1 year (annual checks)
+
+# Simulation Settings
+n_sims = 200000       # Number of Monte Carlo simulations. Default: 200k (higher = smoother tails, slower)
+seed = 42             # Random seed for reproducibility
 np.random.seed(seed)
 
-# Derived
+# Derived calculations
 steps = int(T / dt)
-time_grid = np.linspace(0, T, steps + 1)
-monthly_indices = set((np.round(np.arange(1, int(T*12)+1) * (1/12) / dt)).astype(int))  # monthly check indices
+monthly_indices = set((np.round(np.arange(1, int(T*12)+1) * (1/12) / dt)).astype(int))
 annual_indices = set((np.round(np.arange(1, int(T/call_interval_years)+1) * call_interval_years / dt)).astype(int))
-
 monthly_coupon = coupon_annual / 12.0
 
-# Arrays to collect results
-total_returns = np.zeros(n_sims)   # total return (including coupons, principal, net of fee)
+# Results arrays
+total_returns = np.zeros(n_sims)
 annualized_returns = np.zeros(n_sims)
 
+# Monte Carlo simulation
 for sim in range(n_sims):
-    # simulate lognormal GBM daily path
+    # Generate geometric Brownian motion path
     z = np.random.randn(steps)
     log_returns = (mu - 0.5 * sigma**2) * dt + sigma * np.sqrt(dt) * z
-    log_prices = np.concatenate([[0.0], np.cumsum(log_returns)])  # log S/S0
+    log_prices = np.concatenate([[0.0], np.cumsum(log_returns)])
     prices = S0 * np.exp(log_prices)
     
     accrued_coupons = 0.0
     called = False
     call_time = None
-    cashflow = 0.0
     
-    # iterate through time steps and check monthly/annual events
+    # Evaluate note over time
     for idx in range(1, steps + 1):
         price = prices[idx]
         
-        # monthly coupon observation
+        # Monthly coupon check
         if idx in monthly_indices:
             if price >= monthly_barrier * S0:
-                accrued_coupons += monthly_coupon  # coupon for one month (fraction of principal)
+                accrued_coupons += monthly_coupon
         
-        # annual autocall observation
+        # Annual autocall check
         if idx in annual_indices:
             if price >= autocall_trigger * S0:
-                # early call: pay principal + accrued coupons (pro-rated)
                 called = True
                 call_time = idx * dt
                 break
     
+    # Calculate final payoff
     if called:
-        # cashflow: principal (1.0 per unit) + accrued coupons until call_time
         gross_total = 1.0 + accrued_coupons
     else:
         final_price = prices[-1]
-        # If final price >= monthly_barrier (60%), principal returned, else principal * (final/start)
         if final_price >= monthly_barrier * S0:
             gross_total = 1.0 + accrued_coupons
         else:
-            # principal loss proportionate to index return
             gross_total = (final_price / S0) + accrued_coupons
     
-    # model fees roughly: apply fee_annual continuously -> multiply by exp(-fee_annual * duration)
-    # duration: call_time if called else T
+    # Apply fee drag (continuous compounding)
     duration = call_time if called else T
     net_total = gross_total * np.exp(-fee_annual * duration)
     
-    total_returns[sim] = net_total - 1.0  # net total return over principal (as fraction of principal)
-    annualized_returns[sim] = ( (net_total) ** (1.0 / (duration if duration>0 else T)) ) - 1.0
+    total_returns[sim] = net_total - 1.0
+    annualized_returns[sim] = ((net_total) ** (1.0 / (duration if duration > 0 else T))) - 1.0
 
-# Summaries
+# Aggregate results
 df = pd.DataFrame({
     "total_return": total_returns,
     "annualized_return": annualized_returns
 })
 
+# Print statistics
 print("Simulations:", n_sims)
 print("\n=== TOTAL RETURNS (over investment period) ===")
 print("Mean total return (net): {:.2%}".format(df.total_return.mean()))
@@ -108,8 +106,8 @@ print("95th percentile annualized return (CAGR): {:.2%}".format(np.percentile(df
 print("Max annualized return (CAGR): {:.2%}".format(df.annualized_return.max()))
 print("Min annualized return (CAGR): {:.2%}".format(df.annualized_return.min()))
 
-# Histogram of total returns
-plt.figure(figsize=(9,5))
+# Generate histogram
+plt.figure(figsize=(9, 5))
 plt.hist(df.total_return, bins=200, density=True, edgecolor='none')
 plt.title("Monte Carlo distribution of representative CAIE note total return (net of fees)")
 plt.xlabel("Total return over investment period (fraction)")

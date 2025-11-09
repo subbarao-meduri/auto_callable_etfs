@@ -38,5 +38,7 @@ ENV/
 Thumbs.db
 
 # Project specific
-montecarlo_results.png
+# PNG files are included in documentation, so they should be committed
+# montecarlo_results.png
+# historical_autocall_total_return_hist.png
 
