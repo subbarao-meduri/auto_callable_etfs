@@ -214,4 +214,3 @@ Calamos Autocallable Income ETFs offer attractive headline yields, but these com
 Investors should carefully consider whether the risk-return profile aligns with their investment objectives, risk tolerance, and time horizon. These products are complex structured products, not simple income investments, and require sophisticated understanding of the embedded risks.
 
 **Bottom Line**: High yield comes with high risk. The 14% coupon is not "free money" — it's compensation for accepting significant equity market risk and giving up upside participation.
-

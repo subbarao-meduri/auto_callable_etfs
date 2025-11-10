@@ -192,7 +192,7 @@ plt.savefig('historical_autocall_total_return_hist.png', dpi=150)
 print("Histogram saved to historical_autocall_total_return_hist.png")
 
 # Show worst windows
-worst = res_df.sort_values('cagr').head(25).copy()
+worst = res_df.sort_values('total_return').head(25).copy()
 worst['total_return'] = worst['total_return'].apply(lambda x: f"{x:.2%}")
 worst['cagr'] = worst['cagr'].apply(lambda x: f"{x:.2%}")
 worst['principal_loss_amount'] = worst['principal_loss_amount'].apply(lambda x: f"{x:.2%}")
@@ -201,10 +201,42 @@ print("\nWorst 25 windows (start date, total return, CAGR, principal loss, and d
 print(worst[['start', 'total_return', 'cagr', 'principal_loss_amount', 'duration_months', 'principal_loss', 'called', 'missed_coupon_months']].to_string(index=False))
 
 # Show best windows
-best = res_df.sort_values('cagr').tail(25).copy()
+best = res_df.sort_values('total_return').tail(25).copy()
 best['total_return'] = best['total_return'].apply(lambda x: f"{x:.2%}")
 best['cagr'] = best['cagr'].apply(lambda x: f"{x:.2%}")
 best['principal_loss_amount'] = best['principal_loss_amount'].apply(lambda x: f"{x:.2%}")
 best['duration_months'] = best['duration_months'].astype(int)  # Show as whole months
 print("\nBest 25 windows (start date, total return, CAGR, principal loss, and details):")
 print(best[['start', 'total_return', 'cagr', 'principal_loss_amount', 'duration_months', 'principal_loss', 'called', 'missed_coupon_months']].to_string(index=False))
+
+# Generate markdown tables for documentation (post-2000 data)
+if res_df['start'].min() >= pd.Timestamp('2000-01-01'):
+    print("\n" + "="*80)
+    print("MARKDOWN TABLES FOR BACKTEST_ANALYSIS.md")
+    print("="*80)
+    
+    # Worst 25 markdown table
+    worst_md = res_df.sort_values('total_return').head(25).copy()
+    print("\n### Worst 25 Windows Table (Post-2000)\n")
+    print("| Start Date | Total Return | CAGR | Principal Loss | Duration (Months) | Called Early | Missed Coupon Months |")
+    print("|------------|--------------|------|----------------|-------------------|--------------|---------------------|")
+    for _, row in worst_md.iterrows():
+        called_str = "Yes" if row['called'] else "No"
+        tr = f"{row['total_return']:.2%}"
+        cagr = f"{row['cagr']:.2%}"
+        pl = f"{row['principal_loss_amount']:.2%}"
+        print(f"| {row['start'].strftime('%Y-%m-%d')} | {tr} | {cagr} | {pl} | {int(row['duration_months'])} | {called_str} | {int(row['missed_coupon_months'])} |")
+    
+    # Best 25 markdown table
+    best_md = res_df.sort_values('total_return').tail(25).copy()
+    print("\n### Best 25 Windows Table (Post-2000)\n")
+    print("| Start Date | Total Return | CAGR | Principal Loss | Duration (Months) | Called Early | Missed Coupon Months |")
+    print("|------------|--------------|------|----------------|-------------------|--------------|---------------------|")
+    for _, row in best_md.iterrows():
+        called_str = "Yes" if row['called'] else "No"
+        tr = f"{row['total_return']:.2%}"
+        cagr = f"{row['cagr']:.2%}"
+        pl = f"{row['principal_loss_amount']:.2%}"
+        print(f"| {row['start'].strftime('%Y-%m-%d')} | {tr} | {cagr} | {pl} | {int(row['duration_months'])} | {called_str} | {int(row['missed_coupon_months'])} |")
+    
+    print("\n" + "="*80)
